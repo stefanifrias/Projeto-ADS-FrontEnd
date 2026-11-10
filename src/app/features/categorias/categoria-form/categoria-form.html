@@ -1,0 +1,40 @@
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    <h2 class="h5 mb-3">{{ categoria() === null ? 'Nova categoria' : 'Editar categoria' }}</h2>
+    <form [formGroup]="formulario" (ngSubmit)="salvar()">
+      <div class="mb-3">
+        <label class="form-label" for="descricao">Descrição</label>
+        <input id="descricao" class="form-control" placeholder="Ex.: Alimentação"
+          formControlName="descricao" />
+        @if (formulario.controls.descricao.touched && formulario.controls.descricao.hasError('required')) {
+          <div class="text-danger small">A descrição é obrigatória.</div>
+        }
+        @if (formulario.controls.descricao.touched && formulario.controls.descricao.hasError('minlength')) {
+          <div class="text-danger small">Informe pelo menos 3 caracteres.</div>
+        }
+        @if (formulario.controls.descricao.touched && formulario.controls.descricao.hasError('maxlength')) {
+          <div class="text-danger small">Informe no máximo 60 caracteres.</div>
+        }
+        <div class="form-text">Obrigatória, de 3 a 60 caracteres.</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="tipo">Tipo</label>
+        <select id="tipo" class="form-select" formControlName="tipo">
+          <option value="DESPESA">Despesa</option>
+          <option value="RECEITA">Receita</option>
+        </select>
+      </div>
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="ativo" formControlName="ativo" />
+        <label class="form-check-label" for="ativo">Ativa</label>
+      </div>
+      @if (erro) { <p class="text-danger small" role="alert">{{ erro }}</p> }
+      <button class="btn btn-primary" type="submit">
+        {{ categoria() === null ? 'Cadastrar categoria' : 'Salvar alterações' }}
+      </button>
+      @if (categoria() !== null) {
+        <button class="btn btn-outline-secondary ms-2" type="button" (click)="cancelar()">Cancelar</button>
+      }
+    </form>
+  </div>
+</div>
